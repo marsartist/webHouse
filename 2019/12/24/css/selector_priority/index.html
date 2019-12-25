@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/webHouse/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/webHouse/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/webHouse/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/webHouse/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/webHouse/css/main.css">
+
+
+<link rel="stylesheet" href="/webHouse/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://marsartist.github.io/webHouse').hostname,
+    root: '/webHouse/',
+    scheme: 'Mist',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="1. 为什么会有优先级？当不同的选择器中，有相同的样式作用于同一个标签的时候就会出现样式冲突，而选择器优先级就是来解决冲突的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css选择器优先级">
+<meta property="og:url" content="https://marsartist.github.io/webHouse/2019/12/24/css/selector_priority/index.html">
+<meta property="og:site_name" content="yqx_webHouse">
+<meta property="og:description" content="1. 为什么会有优先级？当不同的选择器中，有相同的样式作用于同一个标签的时候就会出现样式冲突，而选择器优先级就是来解决冲突的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-24T03:29:14.839Z">
+<meta property="article:modified_time" content="2019-12-24T04:52:00.237Z">
+<meta property="article:author" content="yqx">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://marsartist.github.io/webHouse/2019/12/24/css/selector_priority/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>css选择器优先级 | yqx_webHouse</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/webHouse/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">yqx_webHouse</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/webHouse/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/webHouse/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/webHouse/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/webHouse/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/webHouse/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://marsartist.github.io/webHouse/2019/12/24/css/selector_priority/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/webHouse/images/avatar.jpg">
+      <meta itemprop="name" content="yqx">
+      <meta itemprop="description" content="行到水穷处，坐看云起时">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="yqx_webHouse">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          css选择器优先级
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-12-24 11:29:14 / 修改时间：12:52:00" itemprop="dateCreated datePublished" datetime="2019-12-24T11:29:14+08:00">2019-12-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/webHouse/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/webHouse/categories/css/%E9%80%89%E6%8B%A9%E5%99%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">选择器</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="1-为什么会有优先级？"><a href="#1-为什么会有优先级？" class="headerlink" title="1. 为什么会有优先级？"></a>1. 为什么会有优先级？</h3><p>当不同的选择器中，有相同的样式作用于同一个标签的时候就会出现样式冲突，而选择器优先级就是来解决冲突的。</p>
+<a id="more"></a>
+<h3 id="2-那么优先级的规则是怎样的？"><a href="#2-那么优先级的规则是怎样的？" class="headerlink" title="2. 那么优先级的规则是怎样的？"></a>2. 那么优先级的规则是怎样的？</h3><p>优先级由高到低：</p>
+<ul>
+<li>!important 规则的优先级最大</li>
+<li>内联样式</li>
+<li>外联样式，根据选择器权值累加，最大者优先级最高<ul>
+<li>权值情况<ul>
+<li>id选择器 100</li>
+<li>class选择器 10</li>
+<li>标签选择器 1</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>自定义样式优先于浏览器的默认样式</li>
+<li>就近原则，当权值相同的时候，越靠近元素的css的样式优先级越高</li>
+<li>当权值相同的时候，后声明的样式会覆盖前声明的样式</li>
+</ul>
+<h3 id="3-假设有11个标签选择器符合构成一个选择器，那它的优先级的比的class选择器的优先级高吗"><a href="#3-假设有11个标签选择器符合构成一个选择器，那它的优先级的比的class选择器的优先级高吗" class="headerlink" title="3. 假设有11个标签选择器符合构成一个选择器，那它的优先级的比的class选择器的优先级高吗"></a>3. 假设有11个标签选择器符合构成一个选择器，那它的优先级的比的class选择器的优先级高吗</h3><pre><code>p&gt;p&gt;p&gt;p&gt;p&gt;p&gt;p&gt;p&gt;p&gt;p&gt;p (11个)  
+.p   </code></pre><p>答案是否定的，因为不管有多少个标签选择器叠加，它的优先级都不会高于class选择器，同理不论有多少个class选择器叠加，其优先级都不会高于id选择器<br>，而且叠加的选择器其实是有个数限制的</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/webHouse/tags/css/" rel="tag"># css</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/webHouse/2019/12/24/network/how_network_link/" rel="prev" title="计算机网络是怎样链接的">
+      <i class="fa fa-chevron-left"></i> 计算机网络是怎样链接的
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/webHouse/2019/12/24/html/html_head_cnt/" rel="next" title="<head>标签里面的内容详解">
+      <head>标签里面的内容详解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-为什么会有优先级？"><span class="nav-number">1.</span> <span class="nav-text">1. 为什么会有优先级？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-那么优先级的规则是怎样的？"><span class="nav-number">2.</span> <span class="nav-text">2. 那么优先级的规则是怎样的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-假设有11个标签选择器符合构成一个选择器，那它的优先级的比的class选择器的优先级高吗"><span class="nav-number">3.</span> <span class="nav-text">3. 假设有11个标签选择器符合构成一个选择器，那它的优先级的比的class选择器的优先级高吗</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="yqx"
+      src="/webHouse/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">yqx</p>
+  <div class="site-description" itemprop="description">行到水穷处，坐看云起时</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/webHouse/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/webHouse/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/webHouse/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yqx</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/webHouse/lib/anime.min.js"></script>
+  <script src="/webHouse/lib/velocity/velocity.min.js"></script>
+  <script src="/webHouse/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/webHouse/js/utils.js"></script>
+
+<script src="/webHouse/js/motion.js"></script>
+
+
+<script src="/webHouse/js/schemes/muse.js"></script>
+
+
+<script src="/webHouse/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
